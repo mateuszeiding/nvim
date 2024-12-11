@@ -1,4 +1,5 @@
-vim.opt.guicursor = "n-v-c:block-Cursor,i:block-blinkwait0-blinkon100-blinkoff100"
+vim.opt.guicursor = ""
+
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
@@ -13,7 +14,8 @@ vim.opt.wrap = false
 
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undodir = vim.fn.expand("$HOME") .. "\\.vim\\undodir"
+vim.opt.undodir = os.getenv("USERPROFILE") .. "\\.vim\\undodir"
+
 vim.opt.undofile = true
 
 vim.opt.hlsearch = false

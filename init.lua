@@ -1,3 +1,3 @@
-vim.g.undotree_DiffCommand = "FC"
+-- My setup went BRRRR so I have PrimeTime now with this one
+require("uszaty")
 
-require("config")
