@@ -77,6 +77,9 @@ return {
                         capabilities = capabilities,
                         settings = {
                             ["rust-analyzer"] = {
+                                rustfmt = {
+                                    enable = true,
+                                },
                                 inlayHints = {
                                     typeHints = true,  -- Włącz podpowiedzi typów
                                     parameterHints = true,  -- Wskazówki dla parametrów funkcji
@@ -121,6 +124,12 @@ return {
             })
         })
         require('rust-tools').inlay_hints.set()
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            pattern = "*.rs",
+            callback = function()
+                vim.lsp.buf.format()
+            end,
+        })
         vim.diagnostic.config({
             -- update_in_insert = true,
             float = {
