@@ -71,12 +71,37 @@ return {
                         }
                     }
                 end,
+                ["rust_analyzer"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.rust_analyzer.setup {
+                        capabilities = capabilities,
+                        settings = {
+                            ["rust-analyzer"] = {
+                                inlayHints = {
+                                    typeHints = true,  -- Włącz podpowiedzi typów
+                                    parameterHints = true,  -- Wskazówki dla parametrów funkcji
+                                    bindingModeHints = true,  -- Wskazówki dla bindingów zmiennych (np. mut, let)
+                                    lifetimeElisionHints = {
+                                        enable = true,  -- Wskazówki dotyczące żywotności
+                                        useParameterNames = true,
+                                    },
+                                },
+                            },
+                        },
+                    }
+                end,
             }
         })
 
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
         cmp.setup({
+            preselect = cmp.PreselectMode.Item,
+            completion = {
+                autocomplete = {
+                    cmp.TriggerEvent.TextChanged, -- Trigger on typing
+                },
+            },
             snippet = {
                 expand = function(args)
                     require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
@@ -85,7 +110,7 @@ return {
             mapping = cmp.mapping.preset.insert({
                 ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
                 ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-                ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+                ['<C-CR>'] = cmp.mapping.confirm({ select = true }),
                 ["<C-Space>"] = cmp.mapping.complete(),
             }),
             sources = cmp.config.sources({
@@ -95,7 +120,7 @@ return {
                 { name = 'buffer' },
             })
         })
-
+        require('rust-tools').inlay_hints.set()
         vim.diagnostic.config({
             -- update_in_insert = true,
             float = {
