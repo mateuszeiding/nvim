@@ -1,3 +1,4 @@
+
 vim.opt.guicursor = "n-v-c:block-Cursor,i:block-blinkwait0-blinkon100-blinkoff50"
 
 vim.opt.nu = true
@@ -29,5 +30,5 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "130"
 
