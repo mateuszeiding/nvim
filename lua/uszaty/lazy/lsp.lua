@@ -33,11 +33,55 @@ return {
             ensure_installed = {
                 "lua_ls",
                 "rust_analyzer",
+                'ts_ls',
             },
             handlers = {
                 function(server_name) -- default handler (optional)
                     require("lspconfig")[server_name].setup {
                         capabilities = capabilities
+                    }
+                end,
+                
+                ["ts_ls"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.ts_ls.setup {
+                        capabilities = capabilities,
+                    }
+                end,
+
+                ["eslint"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.eslint.setup {
+                        capabilities = capabilities,
+                        settings = {
+                            codeAction = {
+                                disableRuleComment = {
+                                    enable = true,
+                                    location = "separateLine"
+                                },
+                                showDocumentation = {
+                                    enable = true
+                                }
+                            },
+                            codeActionOnSave = {
+                                enable = false,
+                                mode = "all"
+                            },
+                            format = true,
+                            nodePath = "",
+                            onIgnoredFiles = "off",
+                            problems = {
+                                shortenToSingleLine = false
+                            },
+                            quiet = false,
+                            rulesCustomizations = {},
+                            run = "onType",
+                            useESLintClass = false,
+                            validate = "on",
+                            workingDirectory = {
+                                mode = "location"
+                            }
+                        }
                     }
                 end,
 
